@@ -1,14 +1,14 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT
+require('dotenv').config();
 
 app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }));
 
-const API = "63995bf10cb7b0e91f3583dd1bcd3768"
-// 63995bf10cb7b0e91f3583dd1bcd3768
+const API = process.env.API_KEY;
 
 app.get("/", (req, res) => {
     res.render("index", {
