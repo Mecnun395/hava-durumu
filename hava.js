@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+
 const axios = require('axios');
 const { program } = require('commander');
 const { Chalk } = require('chalk');
@@ -9,10 +11,19 @@ const chalk = new Chalk();
 const API = process.env.API_KEY;
 
 program
-  .version('1.0.0')
-  .description('Terminalden hızlı hava durumu sorgulama aracı')
-  .argument('<sehir>', 'Hava durumunu öğrenmek istediğiniz şehir')
-  .action(async (sehir) => {
+  .version('1.1.0')
+  .description('Terminalden hızlı hava durumu sorgulama aracı');
+
+program
+  .argument('[sehir]', 'Hava durumunu öğrenmek istediğiniz şehir')
+  .option('-d, --detay', 'Rüzgar hızı gibi ekstra detayları gösterir')
+  .action(async (sehir, options) => {
+    // Eğer şehir yazılmadıysa uyarı verip durdur
+    if (!sehir) {
+      console.log('\n' + chalk.red('❌ Lütfen bir şehir adı giriniz. Örn: hava istanbul') + '\n');
+      return;
+    }
+    
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${sehir}&units=metric&appid=${API}&lang=tr`;
 
     try {
@@ -26,19 +37,32 @@ program
       const durum = data.weather[0].description;
       const nem = data.main.humidity;
 
-      let tempColor = chalk.green;
-      if (sicaklik < 10) tempColor = chalk.cyan;
-      if (sicaklik > 25) tempColor = chalk.red;
+      // Renk seçimi (Chalk metotlarını güvenli şekilde çağırıyoruz)
+      let colorTemp = chalk.green(`${sicaklik}°C`);
+      if (sicaklik < 10) {
+        colorTemp = chalk.cyan(`${sicaklik}°C`);
+      } else if (sicaklik > 25) {
+        colorTemp = chalk.red(`${sicaklik}°C`);
+      }
 
-      console.log('\n' + chalk.bold.underline(`${sehirAdi}, ${ulke} Hava Durumu`) + '\n');
-      console.log(`🌡️  Sıcaklık:    ${tempColor(sicaklik + '°C')} (Hissedilen: ${hissedilen}°C)`);
+      console.log('\n' + chalk.bold(`${sehirAdi}, ${ulke} Hava Durumu`) + '\n');
+      console.log(`🌡️  Sıcaklık:    ${colorTemp} (Hissedilen: ${hissedilen}°C)`);
       console.log(`☁️  Durum:       ${chalk.yellow(durum.toUpperCase())}`);
       console.log(`💧 Nem:         %${nem}\n`);
+        if (options.detay) {
+      console.log(`💨 Rüzgar Hızı: ${data.wind.speed} m/s`);
+      } 
 
     } catch (err) {
-      console.log('\n' + chalk.bold.red('❌ Hata: Şehir bulunamadı veya bir sorun oluştu!') + '\n');
+      console.log('\n' + chalk.red('❌ Hata: Şehir bulunamadı veya bir sorun oluştu!') + '\n');
     }
+});
+
+program
+  .command('naber')
+  .description('Bot ile selamlaşır')
+  .action(() => {
+    console.log('\nİyidir, senden naber?\n');
   });
 
 program.parse(process.argv);
-
