@@ -9,7 +9,6 @@ Terminal üzerinden hızlı ve pratik bir şekilde anlık hava durumu bilgilerin
 
 - 🌡️ **Sıcaklığa Göre Renklendirme:** Sıcaklık değerine göre dinamik renk değişimi (Soğuk: Mavi, Ilık: Yeşil, Sıcak: Kırmızı).
 - 💨 **Detay Modu (`-d` / `--detay`):** Rüzgar hızı ve ekstra detayları görüntüleme.
-- 💬 **Sohbet Komutu:** Terminalden eğlenceli etkileşimler (`hava naber`).
 - 🌐 **Global Kullanım:** `npm link` sayesinde bilgisayarın her yerinden doğrudan `hava <şehir>` şeklinde çalıştırma.
 - 🔒 **Güvenli API Yönetimi:** `.env` desteği ve otomatik dosya yolu tespiti.
 
@@ -21,39 +20,54 @@ Terminal üzerinden hızlı ve pratik bir şekilde anlık hava durumu bilgilerin
 ```bash
 git clone [https://github.com/kullaniciadi/hava-durumu-cli.git](https://github.com/kullaniciadi/hava-durumu-cli.git)
 cd hava-durumu-cli
-2. Bağımlılıkları Yükleyin
-Bash
+```
+
+### 2. Bağımlılıkları Yükleyin
+```bash
 npm install
-3. Ortam Değişkenlerini (.env) Ayarlayın
+```
+
+### 3. Ortam Değişkenlerini (.env) Ayarlayın
 Projenin ana dizininde bir .env dosyası oluşturun ve OpenWeatherMap üzerinden aldığınız API anahtarını ekleyin:
 
-Kod snippet'i
+```bash
 API_KEY=your_openweather_api_key_here
-4. Global Komut Olarak Bağlayın
+```
+
+### 4. Global Komut Olarak Bağlayın
 Terminalde projenin olduğu klasördeyken aşağıdaki komutu çalıştırarak hava komutunu sisteminize tanımlayın:
 
-Bash
+```bash
 npm link
-📖 Kullanım
+```
+
+## 📖 Kullanım
 npm link işlemini yaptıktan sonra sistemin herhangi bir yerinde başına node koymadan doğrudan çalıştırabilirsiniz.
 
-Standart Hava Durumu Sorgulama
-Bash
+#### Standart Kullanım
+```bash
 hava istanbul
 hava ankara
-Detaylı Hava Durumu Sorgulama (-d veya --detay)
-Rüzgar hızı gibi ekstra bilgileri görmek için -d bayrağını kullanabilirsiniz:
+```
 
-Bash
+#### Detaylı Hava Durumu Sorgulama (-d veya --detay)
+Rüzgar hızı gibi ekstra bilgileri görmek için -d bayrağını kullanabilirsiniz:
+```bash
 hava istanbul -d
-Yardım ve Sürüm Bilgisi
-Bash
+```
+
+#### Yardım ve Sürüm Bilgisi
+```bash
 hava --help
 hava --version
-Eğlenceli Alt Komutlar
-Bash
+```
+
+#### Alt Komutlar
+```bash
 hava naber
-🧰 Teknolojiler
+```
+
+## 🧰 Teknolojiler
 Node.js: Çalıştırma ortamı
 
 Commander.js: CLI argüman ve komut yönetimi
